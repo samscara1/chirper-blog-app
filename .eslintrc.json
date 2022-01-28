@@ -21,6 +21,8 @@
     ],
     "rules": {
         "import/prefer-default-export": "off",
-        "quotes": [2, "single", { "avoidEscape": true }]
+        "quotes": [2, "single", { "avoidEscape": true }],
+        "react/function-component-definition": [2, { "namedComponents": "arrow-function" }],
+        "arrow-body-style": "off"
     }
 }
