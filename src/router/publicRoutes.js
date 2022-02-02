@@ -1,10 +1,16 @@
 import { Error404Page } from '../pages/Error404Page';
-import { AuthPage } from '../pages/AuthPage';
+import { Login } from '../pages/Login';
+import { Register } from '../pages/Register';
 
 export const publicRoutes = [
   {
+    path: '/register',
+    element: Register,
+    exact: true,
+  },
+  {
     path: '/login',
-    element: AuthPage,
+    element: Login,
     exact: true,
   },
   {
