@@ -1,54 +1,24 @@
-/* eslint-disable no-unused-vars */
-import React, { useState, useContext } from 'react';
-import { signInWithPopup, createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
-import { auth, provider } from '../firebase-config';
+import React from 'react';
+import { signInWithEmailAndPassword } from 'firebase/auth';
+import { useNavigate } from 'react-router';
 
-import { AuthContext } from '../router/AuthProvider';
+import { auth } from '../firebase-config';
 
-// eslint-disable-next-line react/prop-types
-export const Login = ({ setIsAuth }) => {
-  const [registerEmail, setRegisterEmail] = useState('');
-  const [registerPassword, setRegisterPassword] = useState('');
-  const [loginEmail, setLoginEmail] = useState('');
-  const [loginPassword, setLoginPassword] = useState('');
+import { Form } from '../UI/Form/Form';
+import { GoogleSignIn } from '../components/GoogleSignIn/GoogleSignIn';
 
-  const signInWithGoogle = () => {
-    signInWithPopup(auth, provider)
-      .then((res) => {
-        localStorage.setItem('user', auth.currentUser.displayName);
-        setIsAuth(true);
-        console.log(res);
-      });
-  };
+export const Login = () => {
+  const navigate = useNavigate();
 
-  const register = async () => {
+  const handleLogin = async (email, password) => {
     try {
-      const user = await createUserWithEmailAndPassword(
+      await signInWithEmailAndPassword(
         auth,
-        registerEmail,
-        registerPassword,
+        email,
+        password,
       );
-      console.log(user);
-      console.log(!!auth.currentUser);
-    } catch (error) {
-      console.log(error.message);
-    }
-  };
-
-  const showUser = () => {
-    const { currentUser } = useContext(AuthContext);
-    console.log('curentUser', currentUser);
-  };
-
-  const login = async () => {
-    try {
-      const user = await signInWithEmailAndPassword(
-        auth,
-        loginEmail,
-        loginPassword,
-      );
-      console.log(user);
-      console.log(auth);
+      localStorage.setItem('user', auth.currentUser.email);
+      navigate('/');
     } catch (error) {
       console.log(error.message);
     }
@@ -56,16 +26,9 @@ export const Login = ({ setIsAuth }) => {
 
   return (
     <div>
-      <p>sign in</p>
-      <button type="button" onClick={signInWithGoogle}>Sign in</button>
-      <p>sign up with e-mail</p>
-      <input type="email" placeholder="e-mail" onChange={(e) => { setRegisterEmail(e.target.value); }} />
-      <input type="password" placeholder="password" onChange={(e) => { setRegisterPassword(e.target.value); }} />
-      <button type="submit" onClick={register}>sign up with e-mail</button>
-      <input type="email" placeholder="e-mail" onChange={(e) => { setLoginEmail(e.target.value); }} />
-      <input type="password" placeholder="password" onChange={(e) => { setLoginPassword(e.target.value); }} />
-      <button type="submit" onClick={login}>sign in with e-mail</button>
-      <button type="submit" onClick={showUser}>show user</button>
+      <GoogleSignIn />
+      <p>sign in with e-mail</p>
+      <Form handleClick={handleLogin} btnTitle="sign in" />
     </div>
   );
 };
