@@ -4,6 +4,8 @@ import './index.css';
 import reportWebVitals from './reportWebVitals';
 import { Main } from './router/Main';
 
+import './firebase-config';
+
 ReactDOM.render(
   // eslint-disable-next-line react/jsx-filename-extension
   <React.StrictMode>
