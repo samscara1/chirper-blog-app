@@ -1,37 +1,25 @@
 import React from 'react';
-import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { useNavigate } from 'react-router';
 import { Link } from 'react-router-dom';
-
-import { auth } from '../firebase-config';
 
 import { Form } from '../UI/Form/Form';
 
 import { GoogleSignIn } from '../components/GoogleSignIn/GoogleSignIn';
-
-// import { Form } from './components/Form';
+import { signupWithEmailAndPassword } from '../firebase-service';
 
 export const Register = () => {
   const navigate = useNavigate();
 
   const handleRegister = async (email, password) => {
-    try {
-      await createUserWithEmailAndPassword(
-        auth,
-        email,
-        password,
-      );
-      localStorage.setItem('user', auth.currentUser.email);
-      navigate('/');
-    } catch (error) {
-      console.log(error.message);
-    }
+    await signupWithEmailAndPassword(email, password);
+    navigate('/');
   };
 
   return (
     <section>
-      <Form handleClick={handleRegister} btnTitle="register" />
       <GoogleSignIn />
+      <p>sign up with e-mail</p>
+      <Form handleClick={handleRegister} btnTitle="register" />
       <p>
         Already have an account?
         {' '}
