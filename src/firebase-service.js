@@ -1,6 +1,9 @@
 import { signInWithEmailAndPassword, signInWithPopup, createUserWithEmailAndPassword } from 'firebase/auth';
+import { collection, addDoc } from 'firebase/firestore';
 
-import { auth, provider } from './firebase-config';
+import { auth, provider, db } from './firebase-config';
+
+const postsColectionRef = collection(db, 'posts');
 
 export const loginWithEmailAndPassword = async (email, password) => {
   try {
@@ -31,4 +34,23 @@ export const signupWithEmailAndPassword = async (email, password) => {
 export const loginWithGoogle = async () => {
   await signInWithPopup(auth, provider);
   localStorage.setItem('user', auth.currentUser.email);
+};
+
+export const createPost = async (title, post) => {
+  try {
+    await addDoc(
+      postsColectionRef,
+      {
+        title,
+        post,
+        author: {
+          name: auth.currentUser.email,
+          id: auth.currentUser.uid,
+        },
+        comments: [],
+      },
+    );
+  } catch (error) {
+    console.log(error.message);
+  }
 };
