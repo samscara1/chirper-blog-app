@@ -3,6 +3,8 @@ import { collection, addDoc } from 'firebase/firestore';
 
 import { auth, provider, db } from './firebase-config';
 
+import { getDateAndTime } from './helpers/getDateAndTime';
+
 const postsColectionRef = collection(db, 'posts');
 
 export const loginWithEmailAndPassword = async (email, password) => {
@@ -48,8 +50,10 @@ export const createPost = async (title, post) => {
           id: auth.currentUser.uid,
         },
         comments: [],
+        time: getDateAndTime(),
       },
     );
+    // console.log(date);
   } catch (error) {
     console.log(error.message);
   }
