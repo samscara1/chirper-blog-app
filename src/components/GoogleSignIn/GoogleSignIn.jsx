@@ -5,7 +5,7 @@ import { loginWithGoogle } from '../../firebase-service';
 export const GoogleSignIn = () => {
   const navigate = useNavigate();
   const handleClick = async () => {
-    loginWithGoogle();
+    await loginWithGoogle();
     navigate('/');
   };
   return <button type="button" onClick={handleClick}>Sign in with Google</button>;
