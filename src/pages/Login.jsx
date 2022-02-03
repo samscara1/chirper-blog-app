@@ -1,27 +1,19 @@
 import React from 'react';
-import { signInWithEmailAndPassword } from 'firebase/auth';
 import { useNavigate } from 'react-router';
-
-import { auth } from '../firebase-config';
+import { Link } from 'react-router-dom';
 
 import { Form } from '../UI/Form/Form';
+
 import { GoogleSignIn } from '../components/GoogleSignIn/GoogleSignIn';
+
+import { loginWithEmailAndPassword } from '../firebase-service';
 
 export const Login = () => {
   const navigate = useNavigate();
 
   const handleLogin = async (email, password) => {
-    try {
-      await signInWithEmailAndPassword(
-        auth,
-        email,
-        password,
-      );
-      localStorage.setItem('user', auth.currentUser.email);
-      navigate('/');
-    } catch (error) {
-      console.log(error.message);
-    }
+    await loginWithEmailAndPassword(email, password);
+    navigate('/');
   };
 
   return (
@@ -29,6 +21,11 @@ export const Login = () => {
       <GoogleSignIn />
       <p>sign in with e-mail</p>
       <Form handleClick={handleLogin} btnTitle="sign in" />
+      <p>
+        New here?
+        {' '}
+        <Link to="/register">Register</Link>
+      </p>
     </div>
   );
 };
