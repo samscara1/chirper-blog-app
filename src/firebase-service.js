@@ -1,5 +1,10 @@
 import { signInWithEmailAndPassword, signInWithPopup, createUserWithEmailAndPassword } from 'firebase/auth';
-import { collection, addDoc } from 'firebase/firestore';
+import {
+  collection,
+  addDoc,
+  getDoc,
+  doc,
+} from 'firebase/firestore';
 
 import { auth, provider, db } from './firebase-config';
 
@@ -57,4 +62,10 @@ export const createPost = async (title, post) => {
   } catch (error) {
     console.log(error.message);
   }
+};
+
+export const getDocumentData = async (id) => {
+  const docRef = doc(db, 'posts', id);
+  const docSnap = await getDoc(docRef);
+  return docSnap.data();
 };
