@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import { Form } from '../UI/Form/Form';
 
 import { GoogleSignIn } from '../components/GoogleSignIn/GoogleSignIn';
+
 import { signupWithEmailAndPassword } from '../firebase-service';
 
 export const Register = () => {

@@ -1,13 +1,21 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router';
-import { deleteDoc, doc } from 'firebase/firestore';
+import {
+  deleteDoc,
+  doc,
+} from 'firebase/firestore';
+import { nanoid } from 'nanoid';
 import { getDocumentData } from '../firebase-service';
 import { db, auth } from '../firebase-config';
 import { EditPost } from '../components/EdutPost/EditPost';
+import { CommentForm } from '../components/CommentForm/CommentForm';
+import { Comment } from '../components/Comment/Comment';
 
 export const Post = () => {
   const [post, setPost] = useState({});
   const [edit, setEdit] = useState(false);
+  const [refreshComments, setRefreshComments] = useState(false);
+  const [showComment, setShowComment] = useState(false);
   const [pending, setPending] = useState(true);
 
   const { id } = useParams();
@@ -18,15 +26,14 @@ export const Post = () => {
     const postData = await getDocumentData(id);
     setPost(postData);
     setPending(false);
-  }, [edit]);
+  }, [edit, showComment, refreshComments]);
 
   const handleDeletePost = async () => {
     await deleteDoc(doc(db, 'posts', id));
     navigate('/');
-    console.log(post);
   };
 
-  const handleEdit = () => {
+  const handleEdit = async () => {
     setEdit(!edit);
   };
 
@@ -51,15 +58,30 @@ export const Post = () => {
               <div>
                 <button type="button" onClick={handleEdit}>edit post</button>
                 <button type="button" onClick={handleDeletePost}>delete post</button>
-                <button type="button" onClick={() => navigate('/')}>go back</button>
               </div>
               )
-      }
+            }
+            <button type="button" onClick={() => setShowComment(true)}>leave a comment</button>
+            <button type="button" onClick={() => navigate('/')}>go back</button>
           </div>
         )}
       <p>{post.time}</p>
+      {showComment && <CommentForm post={post} postID={id} hideComment={setShowComment} />}
       {post.comments?.map((comment) => {
-        return <p>{comment.name}</p>;
+        return (
+          <Comment
+            author={comment.commentAuthor}
+            authorID={comment.commentAuthorId}
+            commentText={comment.commentText}
+            date={comment.date}
+            postID={id}
+            commentID={comment.commentId}
+            comments={post.comments}
+            key={nanoid()}
+            refreshComments={setRefreshComments}
+            commentsFlag={refreshComments}
+          />
+        );
       })}
     </section>
   );
