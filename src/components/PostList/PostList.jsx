@@ -4,7 +4,7 @@ import { nanoid } from 'nanoid';
 
 import { db } from '../../firebase-config';
 
-import { Post } from '../../pages/Post';
+import { Post } from '../Post/Post';
 
 export const PostList = () => {
   const [postList, setPostList] = useState([]);
@@ -26,6 +26,7 @@ export const PostList = () => {
             commentsNumber={post.data().comments.length}
             time={post.data().time}
             key={nanoid()}
+            id={post.id}
           />
         );
       })}

@@ -10,11 +10,6 @@ export const privateRoutes = [
     exact: true,
   },
   {
-    path: '/post',
-    element: Post,
-    exact: true,
-  },
-  {
     path: '/profile',
     element: Profile,
     exact: true,
@@ -24,5 +19,9 @@ export const privateRoutes = [
     element: CreatePost,
     exact: true,
   },
-
+  {
+    path: '/:id',
+    element: Post,
+    exact: true,
+  },
 ];
