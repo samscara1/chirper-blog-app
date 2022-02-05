@@ -3,8 +3,11 @@ import {
   collection,
   addDoc,
   getDoc,
+  setDoc,
+  updateDoc,
   doc,
 } from 'firebase/firestore';
+import { nanoid } from 'nanoid';
 
 import { auth, provider, db } from './firebase-config';
 
@@ -58,10 +61,28 @@ export const createPost = async (title, post) => {
         time: getDateAndTime(),
       },
     );
-    // console.log(date);
   } catch (error) {
     console.log(error.message);
   }
+};
+
+export const createComment = async (post, postID, comment) => {
+  await setDoc(doc(db, 'posts', postID), {
+    comments: [...post.comments, {
+      commentText: comment,
+      commentAuthor: auth.currentUser.email,
+      commentAuthorId: auth.currentUser.uid,
+      date: getDateAndTime(),
+      commentId: nanoid(),
+    }],
+  }, { merge: true });
+};
+
+export const DeleteComment = async (comments, commentId, postID) => {
+  const postRef = doc(db, 'posts', postID);
+  await updateDoc(postRef, {
+    comments: comments.filter((comment) => comment.commentId !== commentId),
+  });
 };
 
 export const getDocumentData = async (id) => {

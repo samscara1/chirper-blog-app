@@ -12,7 +12,7 @@ export const Home = () => {
   };
   return (
     <div>
-      Home
+      {localStorage.user ? <p>{localStorage.user}</p> : <p>no user</p>}
       <button type="button" onClick={signUserOut}>log out</button>
       <PostList />
     </div>
