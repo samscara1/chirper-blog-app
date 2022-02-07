@@ -7,21 +7,17 @@ export const privateRoutes = [
   {
     path: '/',
     element: Home,
-    exact: true,
   },
   {
     path: '/profile',
     element: Profile,
-    exact: true,
   },
   {
     path: '/create-post',
     element: CreatePost,
-    exact: true,
   },
   {
     path: '/:id',
     element: Post,
-    exact: true,
   },
 ];

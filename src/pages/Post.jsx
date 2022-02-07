@@ -24,6 +24,9 @@ export const Post = () => {
 
   useEffect(async () => {
     const postData = await getDocumentData(id);
+    if (!postData) {
+      navigate('404');
+    }
     setPost(postData);
     setPending(false);
   }, [edit, showComment, refreshComments]);
