@@ -12,7 +12,7 @@ export const CommentForm = ({ post, postID, hideComment }) => {
     <section>
       <textarea name="" id="" cols="30" rows="10" value={comment} onChange={(e) => setComment(e.target.value)} />
       <button type="submit" onClick={handlePostComment}>post a comment</button>
-      <button type="button">cancel</button>
+      <button type="button" onClick={() => hideComment(false)}>cancel</button>
     </section>
   );
 };

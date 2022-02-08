@@ -1,17 +1,20 @@
 import React, { useEffect, useState } from 'react';
+
 import { useParams, useNavigate } from 'react-router';
 import {
   deleteDoc,
   doc,
 } from 'firebase/firestore';
 import { nanoid } from 'nanoid';
+
 import { getDocumentData } from '../firebase-service';
 import { db, auth } from '../firebase-config';
+
 import { EditPost } from '../components/EdutPost/EditPost';
 import { CommentForm } from '../components/CommentForm/CommentForm';
 import { Comment } from '../components/Comment/Comment';
 
-export const Post = () => {
+export const PostPage = () => {
   const [post, setPost] = useState({});
   const [edit, setEdit] = useState(false);
   const [refreshComments, setRefreshComments] = useState(false);
@@ -36,7 +39,7 @@ export const Post = () => {
     navigate('/');
   };
 
-  const handleEdit = async () => {
+  const handleEdit = () => {
     setEdit(!edit);
   };
 
