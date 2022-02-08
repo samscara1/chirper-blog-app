@@ -1,6 +1,6 @@
-import { CreatePost } from '../pages/CreatePost';
+import { CreatePost } from '../pages/CratePost/CreatePost';
 import { Home } from '../pages/Home';
-import { Post } from '../pages/Post';
+import { PostPage } from '../pages/PostPage';
 import { Profile } from '../pages/Profile';
 
 export const privateRoutes = [
@@ -18,6 +18,6 @@ export const privateRoutes = [
   },
   {
     path: '/:id',
-    element: Post,
+    element: PostPage,
   },
 ];

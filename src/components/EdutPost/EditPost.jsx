@@ -8,7 +8,6 @@ export const EditPost = ({ text, postID, hideEdit }) => {
   const handleEditPost = async () => {
     await setDoc(doc(db, 'posts', postID), { post: editedText }, { merge: true });
     hideEdit(false);
-    console.log(editedText);
   };
 
   return (
